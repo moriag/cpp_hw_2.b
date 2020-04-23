@@ -10,24 +10,27 @@ namespace family{
         if(this->_father==NULL && this->root.compare(name)==0){
             
             _father= new Tree(father);
-           
+            cout<<"  father "+father+"  "+_father->root;
+            // printf("true");
             return true;
         }
         if(_mother!=NULL && true==(_mother->addFatherRe(name,father))){return true;}
-    
+        printf("  false  ");
         return false;
     }
     bool Tree::addMotherRe(string name, string mother){
-        if(_mother!=NULL&&name.compare(root)==0)throw "";
+        if(_mother!=NULL&&name.compare(root)==0)throw "mmmm";
         if(_mother!=NULL && true==(_mother->addMotherRe(name,mother))){return true;}
         if(_mother==NULL && root==name){
             _mother= new Tree(mother);
-        
+            // printf("  new  ");
+            cout<<"  mother "+mother+"  "+_mother->root;
+
             return true;
         }
         
         if(_father!=NULL && true==(_father->addMotherRe(name,mother))){return true;}
-    
+        printf("  false  ");
         return false;
     }
     bool Tree::removeRe(string& name){
@@ -48,7 +51,7 @@ namespace family{
         if(great>0){
             if(_mother!=NULL)ans= this->_mother->findRe(great-1,mother);
             if(_father!=NULL && ans.empty())ans= _father->findRe(great-1,mother);
-       
+            cout<<" - "+ans+" - ";
             return ans;
         }
         if(mother&&_mother!=NULL)return _mother->root;
@@ -60,19 +63,19 @@ namespace family{
     Tree::Tree(string name):_father(NULL),_mother(NULL),root(name){;}
 
     Tree& Tree::addFather(string name, string father){
- 
- 
-        if(this->addFatherRe(name,father)==true)return *this;
-        __throw_runtime_error("ERR");
-        
-        
+        printf("out");
+        bool b=this->addFatherRe(name,father);
+        printf("%i",b);
+        if(b==true)return *this;
        
+        printf("falseout");
+        __throw_runtime_error("c");
     
     }
     Tree& Tree::addMother(string name, string mother){
-      
+        printf("outm");
         if(true==(this->addMotherRe(name,mother)))return *this;
-        __throw_runtime_error("ERR");
+        __throw_runtime_error("c");
     }
     void Tree::remove(string name){
         if(root.compare(name)==0){
@@ -85,13 +88,13 @@ namespace family{
     void Tree::display(){;
     }
     string Tree::relation(string name){
-       
-        if(this->_mother!=NULL && _mother->root==name)return "mother";
-        if(this->_father!=NULL && _father->root==name)return "father";
+        cout<<"   "+root+"   ";
+        if(this->_mother!=NULL && _mother->root==name){cout<<" mom "<<_mother->root;return "mother";}
+        if(this->_father!=NULL && _father->root==name){cout<<" pop "<<_father->root;return "father";}
         string ans;
         if(this->_mother!=NULL){
             ans=_mother->relation(name);
-
+            cout<<ans+"  here!!  ";
             if(ans.length()==6) return grn+ans;
             if(ans[0]=='g')return gre+ans; 
         }
@@ -101,7 +104,7 @@ namespace family{
             if(ans[0]=='g')return gre+ans; 
         }
         if(root==name)return "me";
-     
+        cout<<"error-"+ans+"- ";
         if(ans.empty())ans="unrelated";
         return ans;
     }
@@ -120,13 +123,14 @@ namespace family{
             else if(relation.compare("father")==0)father=true;
             if((mother||father)&&(grand=1||great==0)){
                 ans+= this->findRe(great,mother);
-            
+                cout<<" f "+ans+" f "<<!ans.empty();
                 if(!ans.empty())return ans;
-               
+                cout<<" ! "+ans+" ! ";
             }   
         }
-  
-        throw "";
+        cout<<" ff "+ans+" f ";
+        if(ans.empty())throw "k";
+        // return ans;
     
     }
    
